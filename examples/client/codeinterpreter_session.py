@@ -7,11 +7,13 @@ from pydantic import BaseModel
 import base64
 import os
 
-OPENAI_API_KEY='YOURAPI_KEY'
-OPENAI_API_BASE='YOURAPI_BASE'
+OPENAI_API_KEY='sk-YTcOQe3e2N4JVEry97204393Ed2643759b75C65884Be9075'
+OPENAI_API_BASE='https://hk.xty.app/v1'
 
 litellm.api_key=OPENAI_API_KEY
 litellm.api_base=OPENAI_API_BASE
+
+litellm.set_verbose = True
 
 system_message="""You are Open Interpreter, a world-class programmer that can complete any goal by executing code.
 When you send a message containing code to run_code, it will be executed **on the user's machine**. The user has given you **full and complete permission** to execute any code necessary to complete the task. You have full access to control their computer to help them. Code entered into run_code will be executed **in the users local environment**.
@@ -92,7 +94,7 @@ class CodeinterpreterSession:
     domain="http://localhost:5002"
 
     def __init__(self,):
-        self.model='gpt-4'
+        self.model='gpt-3.5-turbo'
         self.messages=[]
         self.uploaded_files = []
         self.session_id=self.start_session()
@@ -200,9 +202,10 @@ class CodeinterpreterSession:
         # args = completion['function_call']['arguments'].split("\n")
 
         # print(args)
-        
-        if "function_call" in completion.keys() and 'run_code' == completion['function_call']['name']:
-            code = json.loads(completion['function_call']['arguments'])['code']
+        print(completion)
+        print(type(completion))
+        if "function_call" in completion.__dict__.keys() and 'run_code' == completion.__dict__['function_call']['name']:
+            code = json.loads(completion.__dict__['function_call']['arguments'])['code']
         #     lines = completion['function_call']['arguments'].split("\n")
         #     code = '\n'.join(lines[1:]).strip("` \n")
             self.run_code(code=code)

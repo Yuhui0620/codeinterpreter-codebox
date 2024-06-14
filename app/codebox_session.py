@@ -115,12 +115,12 @@ class CodeboxSession:
             print('_container_ip_address', self.container_ip_address)
             time.sleep(1)
             self.token = 'zhejianzhang'
-            self.jupyter_api = JupyterAPI(port=self.export_port,ip=self.network_gateway_ip, token=self.token)
+            self.jupyter_api = JupyterAPI(port="8888",ip="172.18.0.3", token=self.token)
 
     def _init_language_map(self):
         return {
             schemas.ProgrammingLanguage.JUPYTER:{
-                "image_name":"jupyter/scipy-notebook:custom", #You can modify the image
+                "image_name":"scipy-notebook:custom", #You can modify the image
                 # "command":'start-notebook.sh --NotebookApp.token="zhejianzhang" --ip="0.0.0.0" --no-browser --allow-root --allow_origin="*" --ServerApp.allow_remote_access=True --certfile=mycert.pem --keyfile=mykey.key',
                 "command":'start-notebook.sh --NotebookApp.token="zhejianzhang" --ip="0.0.0.0" --no-browser --allow-root --allow_origin="*" --ServerApp.allow_remote_access=True ',
                 "file_extension":".ipynb",
